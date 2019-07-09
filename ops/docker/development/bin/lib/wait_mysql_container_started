@@ -1,0 +1,31 @@
+#! /bin/sh
+
+# ------------------------
+#
+# mysql
+#
+# ------------------------
+
+waitMySqlStarted() {
+    SLEEP_TIME=3
+    MAX_WAIT_COUNT=6
+    waitCount=0
+    MAX_WAIT_TIME=`expr ${SLEEP_TIME} \* ${MAX_WAIT_COUNT}`
+
+    # mysql ERROR 2002
+    while [ "`bin/mysql/exec mysql | egrep 'ERROR 2002'`" != "" ];
+    do
+        if [ ${waitCount} -eq ${MAX_WAIT_COUNT} ]; then
+            echo "`expr ${SLEEP_TIME} \* ${waitCount}`mysql did not start"
+            return 1
+        fi
+        waitCount=`expr ${waitCount} + 1`
+        sleep ${SLEEP_TIME}
+        echo "--- sleep ${SLEEP_TIME} seconds [`expr ${SLEEP_TIME} \* ${waitCount}` / ${MAX_WAIT_TIME}]"
+    done
+
+    echo "mysql is ready"
+    return 0
+}
+# wait for mysql container to start
+waitMySqlStarted

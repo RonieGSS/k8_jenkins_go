@@ -1,0 +1,32 @@
+#!/bin/sh
+
+# ---------------------------
+#
+# docker-compose alias
+#
+# ---------------------------
+
+cd `dirname $0`/../../../../
+projectName=$(basename `pwd` | sed s/-//g)
+host="localhost"
+ip1=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "50190/tcp") 0).HostPort}}' $projectName"_revel_1")
+ip2=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $projectName"_phpmyadmin_1")
+ip3=$(docker inspect -f '{{(index (index .NetworkSettings.Ports "80/tcp") 0).HostPort}}' $projectName"_mailcatcher_1")
+echo ""
+echo ""
+echo "================ YOU CAN SEE ME NOW ================================================"
+echo ""
+echo "Service               (Revel)         : http://$host:$ip1"
+echo ""
+echo "---------------- DEVELOPMENT TOOLS -------------------------------------------------"
+echo ""
+echo "DB Admin              (phpMyAdmin)    : http://$host:$ip2"
+echo "Mailbox               (MailCatcher)   : http://$host:$ip3"
+echo ""
+echo "※ Example user account/password"
+echo "　・Admin user　：hoge@example.com / hoge1234"
+echo ""
+echo "※ DB Admin (phpMyAdmin) user account/password"
+echo "　・root / 1234"
+echo ""
+echo "===================================================================================="

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+cd `dirname $0`/../
+
+docker exec -ti frncbackend_revel_1 /bin/sh -c "
+    cd bin/
+    npm link gulp
+    npm install
+"

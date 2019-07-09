@@ -1,0 +1,20 @@
+#!/bin/sh
+
+cd `dirname $0`/../
+
+source .envrc
+export FRNC_FRONTEND_DB_HOST=$(ip route | awk 'NR==1 {print $3}')
+
+echo "creating mirror directory to sync host file changes..."
+cd ../
+rm -rf frnc-backend/*
+cp -R frnc-backend-src/* frnc-backend/
+ln -s frnc-backend/src/revel /go/src/github.com/qmu-jp/frnc-backend-alias 
+
+echo "starting gulp watch..."
+cd /go/src/github.com/qmu-jp/frnc-backend-src/bin/
+gulp &
+
+echo "starting revel..."
+cd /go/src/github.com/qmu-jp/frnc-backend/
+revel run github.com/qmu-jp/frnc-backend-alias

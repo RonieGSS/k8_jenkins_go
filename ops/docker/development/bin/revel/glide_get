@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# ---------------------------
+#
+# Excute npm install --save dev $input
+#
+# ---------------------------
+
+cd `dirname $0`/../../../../
+projectName=$(basename `pwd`)
+projectRoot=$(pwd)
+
+clear >/dev/tty
+echo "Which package? (e.g. github.com/k0kubun/pp): " >/dev/tty
+tput cnorm >/dev/tty 2>/dev/null || tput vs >/dev/tty 2>/dev/null
+read input </dev/tty
+
+docker exec -ti frncbackend_revel_1 /bin/sh -c "cd src/revel/; glide get $input"

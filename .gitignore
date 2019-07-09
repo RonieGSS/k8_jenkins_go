@@ -1,0 +1,26 @@
+# Win
+Thumbs.db
+
+# Mac
+.DS_Store
+
+# Vim
+*.sw?
+*~
+
+# direnv
+.envrc
+
+# Eclipse
+.project
+.settings
+.buildpath
+
+# Revel
+src/revel/app/tmp/*
+src/revel/app/routes/*
+test-results/
+src/revel/vendor
+
+# front
+node_modules/

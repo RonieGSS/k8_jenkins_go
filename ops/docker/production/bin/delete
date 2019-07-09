@@ -1,0 +1,25 @@
+#! /bin/sh
+
+cd `dirname $0`/../
+app="revel"
+
+if [[ $(kubectl describe service $app | grep 'green') ]]; 
+then
+	label="${app}-green"
+else
+	label="${app}"
+fi
+
+dir="${app}"
+httpsName="https-${app}"
+basicAuthName="${app}-basic-auth"
+
+# # # # # # # # # # # # # # # # # # # # # #
+# To be used for quick deployment and fix
+# # # # # # # # # # # # # # # # # # # # # #
+
+# APP="${label}-staging" DNS=$STAGING_URL NAME="${httpsName}" \
+# envsubst < "./${dir}/https.yaml" | kubectl delete -f -
+
+# APP="${label}-staging" DNS=$STAGING_URL NAME="${basicAuthName}" \
+# envsubst < "./${dir}/basic-auth.yaml" | kubectl delete -f -

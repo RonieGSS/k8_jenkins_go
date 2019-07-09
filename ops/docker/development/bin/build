@@ -1,0 +1,36 @@
+#! /bin/sh
+
+# ------------------------
+#
+# cakebootを実行可能にするための処理をまとめたスクリプト
+# リポジトリからclone後、このスクリプトの実行のみでひと通り準備ができる
+#
+# ------------------------
+
+cd `dirname $0`/../../../../
+# ops/docker/original
+cd ops/docker/original
+# build original parent image
+sh bin/build_image
+cd ../../../
+# copy the development db and configuration files
+cp src/revel/app/lib/db.go.dev src/revel/app/lib/db.go
+cp src/revel/conf/app.conf.dev src/revel/conf/app.conf
+# ops/docker/development
+cd ops/docker/development
+# npm install
+bin/revel/npm-install
+# コンテナをビルド
+bin/lib/docker_rebuild
+# mysqlコンテナのmysqlが起動するまで待つ
+bin/lib/wait_mysql_container_started
+# dbを作成する（本来であればコンテナが起動すれば実行されるはずなのだが...）
+bin/mysql/exec "sh docker-entrypoint-initdb.d/init.sh"
+# glide install
+docker exec -ti frncbackend_revel_1 /bin/sh -c "cd src/revel/; glide install" 
+# migrations
+docker exec -ti frncbackend_revel_1 ops/docker/development/bin/revel/migu
+# load seed
+docker exec -ti frncbackend_revel_1 ops/docker/development/bin/revel/read_seed
+# アクセス可能なURLを表示
+bin/url

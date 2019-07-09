@@ -1,0 +1,36 @@
+version: '2'
+services:
+  mysql:
+      image: hxhroniegss/mysql
+      environment:
+          MYSQL_ROOT_PASSWORD: '1234'
+      volumes_from:
+          - datastore
+
+  datastore:
+      build: containers/datastore
+
+  mailcatcher:
+      image: hxhroniegss/mailcatcher
+      ports:
+          - '50191:80'
+          - '25'
+
+  phpmyadmin:
+      image: nazarpc/phpmyadmin
+      ports:
+          - '50192:80'
+      links:
+          - mysql
+
+  revel:
+      build: containers/revel
+      user: "root:root"
+      env_file: ../../../.envrc
+      volumes:
+        - ../../../:/go/src/github.com/hxhronie/revel-src
+      command: bin/watch-revel
+      ports:
+          - '50190:50190'
+      links:
+          - mysql

@@ -1,0 +1,18 @@
+#! /bin/sh
+
+# -----------------------------------------
+#
+# Build revel production image
+#
+# -----------------------------------------
+
+cd `dirname $0`/../../../../
+cd ops/docker/original
+# build original parent image
+sh bin/build_image
+cd ../../../
+# copy the production db and configuration files
+cp src/revel/app/lib/db.go.prod src/revel/app/lib/db.go
+cp src/revel/conf/app.conf.prod src/revel/conf/app.conf
+# build production revel image
+docker build -t asia.gcr.io/freenance-207803/revel	-f ops/docker/production/revel/Dockerfile .

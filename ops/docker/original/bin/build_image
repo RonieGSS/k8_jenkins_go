@@ -1,0 +1,14 @@
+#! /bin/sh
+
+# -----------------------------------------
+#
+# Build revel original image
+#
+# -----------------------------------------
+
+cd `dirname $0`/../
+cd revel
+imageName="hxhroniegss/revel"
+dockerBuild="docker build -t $imageName"
+# run docker build command
+$dockerBuild .

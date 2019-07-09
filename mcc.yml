@@ -1,0 +1,95 @@
+---
+schema_version: v1.1.0
+timezone: Asia/Tokyo
+widgets:
+  - id: development
+    type: menu
+    title: DEVELOPMENT
+    content:
+      - category: docker
+        name: Run docker-compose build & up
+        description: run docker-compose stop, build & up
+        command: ops/docker/development/bin/build
+      - category: docker
+        name: Restart containers
+        description: run docker-compose stop & up
+        command: ops/docker/development/bin/restart
+      - category: docker
+        name: SSH
+        description: Get inside the revel container
+        command: docker exec -ti frncbackend_revel_1 /bin/sh -l
+      - category: docker
+        name: Tail revel log
+        description: tail -f revel containers output
+        command: docker logs frncbackend_revel_1 -f
+      - category: docker
+        name: MySQL Console
+        description: Execulte mysql console getting in the MySQL container
+        command: ops/docker/development/bin/mysql/mysql
+
+      - category: Go
+        name: Glide install
+        description: Fetch all dependencies by glide install
+        command: docker exec -ti frncbackend_revel_1 /bin/sh -c "cd src/revel/; glide install"
+      - category: Go
+        name: Glide get
+        description: Execute glide get to add golang dependencies
+        command: ops/docker/development/bin/revel/glide_get
+      - category: Go
+        name: Migrations run
+        description: By migu
+        command: docker exec -ti frncbackend_revel_1 ops/docker/development/bin/revel/migu
+      - category: Go
+        name: Read seed
+        description: Read CSV seeding files
+        command: docker exec -ti frncbackend_revel_1 ops/docker/development/bin/revel/read_seed
+
+      - category: webpack
+        name: Build
+        description: Build front end assets by webpack
+        command: ops/docker/bin/webpack/build
+      - category: webpack
+        name: Watch
+        description: Watch file changes of front end assets by webpack
+        command: ops/docker/bin/webpack/watch
+      - category: webpack
+        name: npm install all from package.json
+        description: Excute npm install from package.json
+        command: ops/docker/bin/webpack/npm_install
+      - category: webpack
+        name: npm install --save-dev
+        description: Execute npm install to install packages
+        command: ops/docker/bin/webpack/npm_install_save_dev
+
+  - id: production
+    type: menu
+    title: PRODUCTION TOOL
+    content:
+      - category: Production
+        name: Build Image
+        description: Build revel production image
+        command: ops/docker/production/bin/build_image
+      - category: Production
+        name: Push
+        description: Push asia.gcr.io/freenance/revel image to Registry
+        command: ops/docker/production/bin/push
+      - category: Staging
+        name: Kubectl Apply
+        description: Applies https and basic-auth pods
+        command: ops/docker/staging/bin/apply
+      - category: Staging
+        name: Kubectl Delete
+        description: Deletes https and basic-auth pods
+        command: ops/docker/staging/bin/delete
+
+layout:
+  - name: DASHBOARD
+    rows:
+      - height: 100%
+        cols:
+          - width: 12
+            stacks:
+              - id: development
+                height: 50%
+              - id: production
+                height: 50% 

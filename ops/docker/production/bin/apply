@@ -1,0 +1,37 @@
+#! /bin/sh
+
+cd `dirname $0`/../
+app="revel"
+
+if [[ $(kubectl describe service $app | grep 'green') ]]; 
+then
+	label="${app}-green"
+else
+	label="${app}"
+fi
+
+dir="${app}"
+httpsName="https-${app}"
+basicAuthName="${app}-basic-auth"
+and='@'
+
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# To be used for quick deployment and fix
+#
+# *Note* Don't uncomment https if it's already working
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
+# IMAGE_NAME=$CLOUD_REGISTRY/${app} PROJECT=$PROJECT \
+# APP=${label}-prod NAME=${label} \
+# DNS=$PRODUCTION_URL BASIC=$BASIC AND="${and}" \
+# envsubst < "./${dir}/deployment.yaml" | kubectl apply -f -
+
+# LOAD_BALANCER=$PROD_IP \
+# envsubst < "./${dir}/service.yaml" | kubectl apply -f -
+
+# APP="${label}-prod" DNS=$PRODUCTION_URL NAME="${httpsName}" BASIC=$BASIC AND="${and}" \
+# envsubst < "./${dir}/https.yaml" | kubectl apply -f -
+
+# APP="${label}-prod" DNS=$PRODUCTION_URL NAME="${basicAuthName}" \
+# envsubst < "./${dir}/basic-auth.yaml" | kubectl apply -f -

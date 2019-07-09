@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cd `dirname $0`/../../../../../
+
+source .envrc
+mysqlcmd="mysql -u $DB_USER -p$DB_PASSWORD -h $DB_HOST $DB_DATABASE"
+
+cd src/revel/conf/seed/
+for file in `\find . -maxdepth 1 -type f`; do
+    table=$(echo $file | sed -e "s/\.\/\(.*\).sql/\1/")
+    echo "Loading $table"
+    $mysqlcmd -e "TRUNCATE $table;"
+    $mysqlcmd < $file
+done

@@ -1,0 +1,45 @@
+package: github.com/qmu-jp/frnc-backend-alias
+import:
+- package: github.com/revel/modules
+  version: ^0.19.0
+  subpackages:
+  - static/app/controllers
+  - testrunner/app
+  - testrunner/app/controllers
+- package: github.com/revel/revel
+  version: ^0.19.1
+  subpackages:
+  - testing
+- package: github.com/k0kubun/pp
+- package: github.com/casbin/casbin
+  version: ~1.5.0
+- package: github.com/flosch/pongo2
+- package: github.com/revel/cron
+  version: ^1.0.0
+- package: github.com/tylerb/gls
+- package: github.com/go-ozzo/ozzo-validation
+  version: ^3.4.0
+  subpackages:
+  - is
+- package: github.com/juju/errors
+- package: cloud.google.com/go
+  version: ^0.26.0
+  subpackages:
+  - storage
+- package: github.com/googleapis/gax-go
+  version: ^2.0.0
+- package: golang.org/x/oauth2
+  subpackages:
+  - google
+- package: google.golang.org/grpc
+  version: ^1.14.0
+- package: golang.org/x/sys
+  version: 1c9583448a9c3aa0f9a6a5241bf73c0bd8aafded
+  subpackages:
+  - unix
+- package: github.com/golang/protobuf
+  version: ^1.2.0
+  subpackages:
+  - proto
+  - protoc-gen-go
+- package: github.com/dustin/go-humanize

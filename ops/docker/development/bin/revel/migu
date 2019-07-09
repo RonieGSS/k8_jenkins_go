@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cd `dirname $0`/../../../../../
+
+source .envrc
+cd src/revel/app/models/backendModel
+
+for file in `\find . -maxdepth 1 -type f`; do
+    if [ `echo $file | grep '_test.go'` ] ; then
+        continue
+    fi
+    echo "PROCESSING $file"
+    migu sync -u $DB_USER -p=$DB_PASSWORD -h $DB_HOST $DB_DATABASE $file
+done

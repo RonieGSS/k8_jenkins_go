@@ -1,0 +1,11 @@
+#!/bin/sh
+
+
+cd `dirname $0`/../../../../../
+
+is_production="false"
+
+TARGET=src/cakephp/config/profile.php
+cp src/cakephp/config/profile.template.php $TARGET
+
+sed -i -e "s|{{is_production}}|$is_production|g" $TARGET
