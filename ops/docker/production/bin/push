@@ -9,4 +9,4 @@
 cd `dirname $0`/../../../../
 # Build production image
 sh ops/docker/production/bin/build_image
-gcloud docker -- push asia.gcr.io/freenance-207803/revel
+gcloud docker -- push asia.gcr.io/template-207803/revel

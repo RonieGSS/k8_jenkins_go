@@ -102,7 +102,7 @@ pipeline {
 			steps {
 				echo "Production Revel Image"
 				script {
-					withDockerRegistry(credentialsId: 'gcr:freenance', url: "https://$CLOUD_REGISTRY") {
+					withDockerRegistry(credentialsId: 'gcr:template', url: "https://$CLOUD_REGISTRY") {
 					    def productionImage = docker.build("$CLOUD_REGISTRY/revel", "--no-cache -f ops/docker/production/revel/Dockerfile ./")
 					    productionImage.push()
 					}
